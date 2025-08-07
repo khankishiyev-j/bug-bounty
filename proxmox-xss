@@ -1,0 +1,26 @@
+A Stored Cross-Site Scripting (XSS) vulnerability exists in the Proxmox Virtual Environment (PVE) Web UI.
+
+When a specially crafted payload such as `<script>alert(1)</script>` is inserted into configuration fields like:
+
+- Datacenter → HTTP Proxy
+- Datacenter → U2F Settings → Origin
+- Datacenter → WebAuthn Settings → Relying Party
+
+…the input is not properly sanitized. As a result, the injected script is stored and executed in the context of the web UI for any other user who later views those settings.
+
+This affects all authenticated users who access the vulnerable configuration pages, allowing potential execution of arbitrary JavaScript code in their session context, which may lead to session hijacking or further exploitation.
+
+The issue was tested and confirmed on Proxmox VE version 8.2.2. It is likely other versions are also affected.
+
+The vendor has been informed and confirmed the vulnerability internally but declined to assign a CVE.
+
+Proof of Concept:
+1. Login as an administrator.
+2. Navigate to Datacenter → HTTP Proxy or WebAuthn Settings.
+3. Set the field value to: `<script>alert('XSS')</script>`
+4. Save changes.
+5. Logout or switch to another account with GUI access.
+6. Upon visiting the same settings page, the script will execute in the browser context.
+
+CWE: CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+
