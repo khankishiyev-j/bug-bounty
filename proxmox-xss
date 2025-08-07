@@ -10,7 +10,7 @@ When a specially crafted payload such as `<script>alert(1)</script>` is inserted
 
 This affects all authenticated users who access the vulnerable configuration pages, allowing potential execution of arbitrary JavaScript code in their session context, which may lead to session hijacking or further exploitation.
 
-The issue was tested and confirmed on Proxmox VE version 8.2.2. It is likely other versions are also affected.
+The issue was tested and confirmed on Proxmox VE version 8.4. It is likely other versions are also affected.
 
 The vendor has been informed and confirmed the vulnerability internally but declined to assign a CVE.
 
